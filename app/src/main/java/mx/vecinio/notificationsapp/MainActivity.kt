@@ -44,7 +44,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val programador = ProgramadorDeAlarma(this)
+                    var alarmItem: AlarmItem? by remember {
+                        mutableStateOf(null)
+                    }
+                    val programador = ProgramadorDeAlarma(applicationContext)
                     var tiempo by remember {
                         mutableStateOf("")
                     }
@@ -53,15 +56,16 @@ class MainActivity : ComponentActivity() {
                         value = tiempo,
                         onValueChange = { tiempo = it },
                         onClick = {
-                           val alarmItem = AlarmItem(
+                            alarmItem = AlarmItem(
+                                id = "caracol",
                                 time = LocalDateTime.now().plusSeconds(tiempo.toLong()),
-                                message  = "mendaje de alarma"
+                                message = "mendaje de alarma"
                             )
-                           programador.programarAlarma(alarmItem)
+                            alarmItem?.let { programador.programarAlarma(it) }
                             tiempo = ""
                         },
                         onClickCancel = {
-                            //alarmItem?.let { programador::cancelarAlarma }
+                            alarmItem?.let { programador.cancelarAlarma(it) }
                         }
                     )
 
@@ -75,10 +79,10 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Greeting(
-    value:String,
-    onValueChange:(String) -> Unit,
-    onClick:() -> Unit,
-    onClickCancel:() -> Unit
+    value: String,
+    onValueChange: (String) -> Unit,
+    onClick: () -> Unit,
+    onClickCancel: () -> Unit
 ) {
 
 
@@ -104,7 +108,7 @@ fun Greeting(
         }) {
             Text(text = "Pick time")
         }
-        OutlinedTextField(value = value , onValueChange = onValueChange )
+        OutlinedTextField(value = value, onValueChange = onValueChange)
         Text(text = formattedTime)
         Button(onClick = { onClick() }) {
             Text(text = "Programar notificacion")
