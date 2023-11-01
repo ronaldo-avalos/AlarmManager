@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "mx.vecinio.notificationsapp"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -65,5 +65,8 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    implementation ("io.github.vanpra.compose-material-dialogs:datetime:0.9.0")
+    coreLibraryDesugaring ("com.android.tools:desugar_jdk_libs:2.0.3")
 
 }

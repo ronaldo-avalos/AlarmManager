@@ -1,2 +1,0 @@
-package mx.vecinio.notificationsapp
-
